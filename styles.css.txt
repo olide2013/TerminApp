@@ -52,10 +52,6 @@ button:hover {
     background-color: #45a049;
 }
 
-.response {
-    margin-top: 20px;
-}
-
 #resultsList {
     list-style: none;
     padding: 0;
