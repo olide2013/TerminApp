@@ -15,6 +15,13 @@ body {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
 header img.logo {
     width: 100px;
 }
@@ -48,6 +55,7 @@ button:hover {
 #resultsList {
     list-style: none;
     padding: 0;
+    margin-top: 20px;
 }
 
 #resultsList li {
