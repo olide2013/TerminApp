@@ -2,8 +2,9 @@
 const firebaseConfig = {
     apiKey: "AIzaSyCqGGovHol9mvLVAUMXdV8amibm6jrFy6Q",
     authDomain: "terminapp-b042e.firebaseapp.com",
+    databaseURL: "https://terminapp-b042e-default-rtdb.firebaseio.com/", // Correct database URL
     projectId: "terminapp-b042e",
-    storageBucket: "terminapp-b042e.firebasestorage.app",
+    storageBucket: "terminapp-b042e.appspot.com",
     messagingSenderId: "18258139416",
     appId: "1:18258139416:web:a9b229dbafc6212ceba66d",
     measurementId: "G-XG42N09676"
@@ -11,7 +12,7 @@ const firebaseConfig = {
 
 // Import Firebase modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
-import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-database.js";
+import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-database.js";
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -19,8 +20,8 @@ const database = getDatabase(app);
 
 // Save data to Firebase
 function saveData(initials, option) {
-    const userRef = ref(database, 'responses');
-    const newResponseRef = userRef.push();
+    const responsesRef = ref(database, 'responses');
+    const newResponseRef = push(responsesRef); // Use `push` to generate a unique ID
     set(newResponseRef, {
         initials: initials,
         option: option
