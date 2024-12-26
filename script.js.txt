@@ -1,0 +1,91 @@
+// Your Firebase config
+const firebaseConfig = {
+    apiKey: "AIzaSyCqGGovHol9mvLVAUMXdV8amibm6jrFy6Q",
+    authDomain: "terminapp-b042e.firebaseapp.com",
+    projectId: "terminapp-b042e",
+    storageBucket: "terminapp-b042e.firebasestorage.app",
+    messagingSenderId: "18258139416",
+    appId: "1:18258139416:web:a9b229dbafc6212ceba66d",
+    measurementId: "G-XG42N09676"
+};
+
+// Import Firebase modules
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-database.js";
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
+// Save data to Firebase
+function saveData(initials, option) {
+    const userRef = ref(database, 'responses');
+    const newResponseRef = userRef.push();
+    set(newResponseRef, {
+        initials: initials,
+        option: option
+    }).then(() => {
+        alert("Ihre Auswahl wurde gespeichert!");
+        showResults(); // Show updated results after saving
+    }).catch((error) => {
+        console.error("Fehler beim Speichern: ", error);
+    });
+}
+
+// Display results
+function showResults() {
+    const responseList = document.getElementById("resultsList");
+    responseList.innerHTML = "";  // Clear previous results
+
+    const responsesRef = ref(database, 'responses');
+    onValue(responsesRef, (snapshot) => {
+        const responses = snapshot.val();
+        if (responses) {
+            for (const key in responses) {
+                const response = responses[key];
+                const listItem = document.createElement("li");
+                listItem.textContent = `${response.initials}: ${response.option}`;
+                responseList.appendChild(listItem);
+            }
+        } else {
+            responseList.innerHTML = "Noch keine Auswahl getroffen.";
+        }
+    });
+}
+
+// Timer logic
+let countdown = 30;
+let timerInterval;
+
+function startTimer() {
+    const timerElement = document.getElementById("timer");
+    timerInterval = setInterval(function() {
+        timerElement.textContent = "Timer: " + countdown;
+        countdown--;
+
+        if (countdown < 0) {
+            clearInterval(timerInterval);
+            timerElement.textContent = "Zeit abgelaufen!";
+        }
+    }, 1000);
+}
+
+// Form submission event listener
+document.getElementById('appointmentForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const initials = document.getElementById('initials').value.trim();
+    const selectedOption = document.querySelector('input[name="appointment"]:checked');
+
+    if (initials && selectedOption) {
+        saveData(initials, selectedOption.value);
+    } else {
+        alert("Bitte geben Sie Ihre Initialen und wählen Sie eine Option.");
+    }
+});
+
+// Start the timer when the page loads
+window.onload = function() {
+    startTimer(); // Start the countdown timer
+    showResults(); // Load and display results immediately
+};

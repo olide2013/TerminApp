@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Termin Auswahl</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <!-- Logo -->
+            <img src="images/Logo.jpg" alt="Logo" class="logo">
+            <h1>Termin Auswahl</h1>
+        </header>
+
+        <p>Wählen Sie eine Option, um Ihren Termin zu bestätigen:</p>
+
+        <!-- Form for appointment selection -->
+        <form id="appointmentForm">
+            <!-- Field for user initials -->
+            <label for="initials">Initialen:</label>
+            <input type="text" id="initials" name="initials" placeholder="Ihre Initialen" required><br><br>
+
+            <label>
+                <input type="radio" name="appointment" value="Es passt mir unbedingt"> Es passt mir unbedingt
+            </label><br>
+            <label>
+                <input type="radio" name="appointment" value="Es passt mir"> Es passt mir
+            </label><br>
+            <label>
+                <input type="radio" name="appointment" value="Vielleicht / mal sehen"> Vielleicht / mal sehen
+            </label><br>
+            <label>
+                <input type="radio" name="appointment" value="Ich kann nicht"> Ich kann nicht
+            </label><br><br>
+
+            <button type="submit">Absenden</button>
+        </form>
+
+        <!-- Response Area to show immediate result after form submission -->
+        <div id="response" class="response"></div>
+
+        <h2>Ergebnisse bis jetzt:</h2>
+        <ul id="resultsList"></ul>
+
+        <!-- Timer Display -->
+        <p id="timer">Timer: 30</p>
+    </div>
+</body>
+</html>
