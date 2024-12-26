@@ -11,16 +11,13 @@ document.getElementById('appointmentForm').addEventListener('submit', function(e
         const responses = JSON.parse(localStorage.getItem('responses')) || [];
 
         // Add new response
-        responses.push({
-            initials: initials,
-            option: selectedOption.value
-        });
+        responses.push(selectedOption.value);
 
         // Save updated responses to localStorage
         localStorage.setItem('responses', JSON.stringify(responses));
 
         // Update the displayed results
-        displayResults();
+        updateCounts();
 
         // Clear the form
         document.getElementById('appointmentForm').reset();
@@ -29,21 +26,22 @@ document.getElementById('appointmentForm').addEventListener('submit', function(e
     }
 });
 
-// Display results
-function displayResults() {
+// Update the counts for each option
+function updateCounts() {
     const responses = JSON.parse(localStorage.getItem('responses')) || [];
-    const resultsList = document.getElementById('resultsList');
 
-    // Clear existing results
-    resultsList.innerHTML = '';
+    // Count occurrences of each option
+    const count1 = responses.filter(response => response === "Es passt mir unbedingt").length;
+    const count2 = responses.filter(response => response === "Es passt mir").length;
+    const count3 = responses.filter(response => response === "Vielleicht / mal sehen").length;
+    const count4 = responses.filter(response => response === "Ich kann nicht").length;
 
-    // Add each response to the results list
-    responses.forEach(response => {
-        const listItem = document.createElement('li');
-        listItem.textContent = `${response.initials}: ${response.option}`;
-        resultsList.appendChild(listItem);
-    });
+    // Update the counts in the DOM
+    document.getElementById('count1').textContent = count1;
+    document.getElementById('count2').textContent = count2;
+    document.getElementById('count3').textContent = count3;
+    document.getElementById('count4').textContent = count4;
 }
 
-// Display results immediately when the page loads
-window.onload = displayResults;
+// Display counts immediately when the page loads
+window.onload = updateCounts;
